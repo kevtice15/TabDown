@@ -1,4 +1,4 @@
 TabDown
 =======
 
-A chrome/opera 15 extension that will 
+A Chrome/Opera 15 extension that condenses all the open tabs into a single screen of links.

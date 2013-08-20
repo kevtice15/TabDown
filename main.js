@@ -1,10 +1,12 @@
-var userHistory;
+var g = {
+	userHistory: {}
+};
 chrome.runtime.onMessage.addListener(
-	function (request, sender){
+	function (request, sender, sendResponse){
 		var bkg = chrome.extension.getBackgroundPage();
-		userHistory = request.history;
+		g.userHistory = request.history;
 		bkg.console.log(request.history);
-	
+
 		console.log(typeof request.history, request.history);
 
 		function ViewModel(history){
@@ -22,6 +24,7 @@ chrome.runtime.onMessage.addListener(
 		}
 		var vm = new ViewModel({history: request.history});
 		ko.applyBindings(vm);
+		sendResponse({farewell: "goodbye"});
 	}
 );
 

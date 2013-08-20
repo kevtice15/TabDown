@@ -1,41 +1,25 @@
 var TD = {};
 
 TD.idList = [];
-TD.extensionId = 'kkgmbidocfcnogfbcigoalnbjdfjaaia';
-TD.TabDownHistory = {
-	estensionId: extensionId,
+TD.extensionId = 'ageddgpadfdjcnbojcjaaoclbcaoanno';
+TD.tabDownHistory = {
+	estensionId: TD.extensionId,
 	tabLists: []
 };
-TD.setTabHistory = function(){
-	var addTabList = new TabList(winTabList);
-	TD.TabDownHistory.tabLists.push(addTabList);
-	localStorage.setItem('tabDownHistory', JSON.stringify(TabDownHistory));
-};
-TD.loadTabHistory = function(){
-	return JSON.parse(localStorage.getItem('tabDownHistory'));
-};
-TD.manipulateTabs = function(){
-	chrome.tabs.query({currentWindow: true}, function(winTabList) {
-			var addTabList = new TabList(winTabList);
-			TabDownHistory.tabLists.push(addTabList);
-			localStorage.setItem('tabDownHistory', JSON.stringify(TabDownHistory));
-			var newTab = chrome.tabs.create( { "url": "index.html" } );
 
-			for(var i in winTabList){
-				if(winTabList[i].active === false){
-					idList.push(winTabList[i].id);
-				}
-			}
-			chrome.tabs.remove(idList);
-			idList = [];
-			chrome.runtime.sendMessage({history: TabDownHistory}); /*Send a message to the content script*/
-		});
+TD.getHistory = function(newList){
+//If there is tab down history in local storage
+	if(localStorage.getItem('tabDownHistory')){
+		TD.tabDownHistory = JSON.parse(localStorage.getItem('tabDownHistory'));
+	}
+
+	TD.tabDownHistory.tabLists.push(new TD.TabList(newList));
+	localStorage.setItem('tabDownHistory', JSON.stringify(TD.tabDownHistory));
 };
 
-var TabList = function(list){
+TD.TabList = function(list){
 	var self = this;
 	self.date = new Date();
-	self.formattedDate = this.formatDate(this.date);
 	self.list = list;
 	self.formatDate = function(date){
 		var dayOfWeek = date.getDay(),
@@ -224,8 +208,9 @@ var TabList = function(list){
 			cleanMinute = '0' + cleanMinute.toString();
 		}
 
-		self.formattedDate = cleanDayOfWeek + ', ' + cleanMonth + ' ' + cleanDayInMonth + ', ' + cleanYear + '     ' + cleanHour + ':' + cleanMinute + ' ' + amOrPm;
+		return cleanDayOfWeek + ', ' + cleanMonth + ' ' + cleanDayInMonth + ', ' + cleanYear + '     ' + cleanHour + ':' + cleanMinute + ' ' + amOrPm;
 	};
+	self.formattedDate = self.formatDate(this.date);
 
 };
 
@@ -233,25 +218,29 @@ var TabList = function(list){
 console.log("ooooooh", localStorage.getItem('tabDownHistory'));
 
 chrome.browserAction.onClicked.addListener(function() {
-	//When the plugin buttton is clicked, 
-	//close all the tabs and
+	//When the plugin buttton is clicked,
+	//save the tabs, 
+	//create the new tab,
+	//close all the other tabs, and
 	//send a message to main.js with the history
-
-	//If there is tab down history in local storage
-	if(localStorage.getItem('tabDownHistory')){
-		loadTabHistory();
-		manipulateTabs();
-	}
-	//If no tab down history
-	else{
-		setTabHistory();
-		manipulateTabs();
-	}
+	chrome.tabs.query({currentWindow: true}, function(theTabs) {
+		var newTabList = theTabs;
+		var newTab = chrome.tabs.create( { "url": "index.html" } );
+		for(var i in newTabList){
+			TD.idList.push(newTabList[i].id);
+		}
+		chrome.tabs.remove(TD.idList);
+		TD.idList = [];
+		TD.getHistory(newTabList);
+		chrome.runtime.sendMessage({history: TD.tabDownHistory}, function(response){
+			console.log(response.farewell);
+		});
+	});
 });
 
-// chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-// 	if(tabId === tab.id){
-// 		chrome.runtime.sendMessage({history: TabDownHistory});
-// 	}
-// });
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+	if(tab.title === 'TabDown'){
+		chrome.runtime.sendMessage({history: TD.tabDownHistory});
+	}
+});
 

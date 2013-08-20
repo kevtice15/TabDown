@@ -1,0 +1,61 @@
+@font-face{
+	font-family: 'Titillium Web';
+	src: url("../font/Titillium_Web/TitilliumWeb-Regular.ttf") format('truetype');
+}
+
+body{
+	font-family: 'Titillium Web';
+	padding-top: 70px;
+}
+
+h1, h2, h3, h4, h5, h6{
+	font-family: 'Titillium Web';
+	font-weight: normal;
+}
+
+p, a{
+	font-family: inherit;
+	font-size: 1em;
+}
+
+.top-bar{
+	height: 100px;
+	margin: 0 0 10px 0;
+	background-color: #98AEB4;
+}
+
+.container{
+	padding: 30px 40px;
+}
+
+.title{
+	font-weight: bold;
+	font-size: 2em;
+	position: absolute;
+	top: 30px;
+	left: 40px;
+
+}
+
+.tab-item{
+	height: 30px;
+}
+
+.tab-item img{
+	margin-right: 20px;
+}
+
+.favicon{
+	height: 15px;
+}
+
+.tabs-number{
+	font-size: 2em;
+	display: inline-block;
+	margin-right: 20px;
+}
+
+.tabs-date{
+	display: inline-block;
+}
+

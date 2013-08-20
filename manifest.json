@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+
+  "name": "TabDown",
+  "description": "Extension built to consildate tabs into a list of links in a single tab.",
+  "version": "1.0",
+  "background": {"scripts": ["background.js"]},
+
+  "permissions": ["tabs"],
+  "browser_action": {
+    "default_icon": "hello.png",
+    "default_title": "TabDown"    
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}

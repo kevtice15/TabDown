@@ -5,7 +5,6 @@
 
 body{
 	font-family: 'Titillium Web';
-	padding-top: 70px;
 }
 
 h1, h2, h3, h4, h5, h6{
@@ -16,6 +15,14 @@ h1, h2, h3, h4, h5, h6{
 p, a{
 	font-family: inherit;
 	font-size: 1em;
+	text-decoration: none;
+}
+
+.brand{
+	font-size: 3em;
+	position: absolute;
+	top: 30px;
+	left: 40px;
 }
 
 .top-bar{
@@ -28,15 +35,6 @@ p, a{
 	padding: 30px 40px;
 }
 
-.title{
-	font-weight: bold;
-	font-size: 2em;
-	position: absolute;
-	top: 30px;
-	left: 40px;
-
-}
-
 .tab-item{
 	height: 30px;
 }
@@ -45,8 +43,8 @@ p, a{
 	margin-right: 20px;
 }
 
-.favicon{
-	height: 15px;
+.tabs-favicon{
+	height: 16px;
 }
 
 .tabs-number{
@@ -59,3 +57,15 @@ p, a{
 	display: inline-block;
 }
 
+.table-row td{
+	padding: 5px 10px;
+	vertical-align: middle;
+}
+
+.tabs-list{
+	padding: 30px 0;
+}
+
+.tabs-table table{
+	margin-top: 20px;
+}

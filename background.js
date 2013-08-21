@@ -208,7 +208,7 @@ TD.TabList = function(list){
 			cleanMinute = '0' + cleanMinute.toString();
 		}
 
-		return cleanDayOfWeek + ', ' + cleanMonth + ' ' + cleanDayInMonth + ', ' + cleanYear + '     ' + cleanHour + ':' + cleanMinute + ' ' + amOrPm;
+		return cleanDayOfWeek + ', ' + cleanMonth + ' ' + cleanDayInMonth + ', ' + cleanYear + ' ' + cleanHour + ':' + cleanMinute + ' ' + amOrPm;
 	};
 	self.formattedDate = self.formatDate(this.date);
 
@@ -240,7 +240,9 @@ chrome.browserAction.onClicked.addListener(function() {
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
 	if(tab.title === 'TabDown'){
-		chrome.runtime.sendMessage({history: TD.tabDownHistory});
+		chrome.runtime.sendMessage({history: TD.tabDownHistory}, function(response){
+			console.log(response.farewell);
+		});
 	}
 });
 
